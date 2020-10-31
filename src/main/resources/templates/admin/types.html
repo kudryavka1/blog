@@ -37,7 +37,15 @@
             <i class="sidebar icon"></i>
         </a>
     </nav>
-    <br>
+    <!--二级导航-->
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="#" th:href="@{/admin/types/input}" class="teal item">新增</a>
+                <a href="#" th:href="@{/admin/types}" class="active item">列表</a>
+            </div>
+        </div>
+    </div>
 
     <!--中间内容-->
     <div class="m-padded-tb-big m-container-small">
