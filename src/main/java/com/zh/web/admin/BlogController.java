@@ -32,14 +32,14 @@ public class BlogController {
     @Autowired
     private TagService tagService;
     @GetMapping("/blogs")
-    public String blogs(@PageableDefault(size = 5,sort = {"id"},direction = Sort.Direction.ASC)
+    public String blogs(@PageableDefault(size = 5,sort = {"id"},direction = Sort.Direction.DESC)
                                     Pageable pageable, BlogQuery blogQuery, Model model){
         model.addAttribute("types",typeService.listType());
         model.addAttribute("page",blogService.listBlog(pageable,blogQuery));
         return "admin/blogs";
     }
     @PostMapping("/blogs/search")
-    public String search(@PageableDefault(size = 5,sort = {"id"},direction = Sort.Direction.ASC)
+    public String search(@PageableDefault(size = 5,sort = {"id"},direction = Sort.Direction.DESC)
                                 Pageable pageable, BlogQuery blogQuery, Model model){
         model.addAttribute("page",blogService.listBlog(pageable,blogQuery));
         return "admin/blogs :: blogList";
@@ -68,6 +68,9 @@ public class BlogController {
         blog.setType(typeService.getType(blog.getType().getId()));
         blog.setTags(tagService.listTag(blog.getTagIds()));
         Blog b;
+        if(blog.getFlag() == null && "".equals(blog.getFlag())){
+            blog.setFlag("原创");
+        }
         if (blog.getId() != null){
             b = blogService.updateBlog(blog.getId(),blog);
         }else {
@@ -81,8 +84,6 @@ public class BlogController {
 
         return "redirect:/admin/blogs";
     }
-
-
 
 
     @GetMapping("/blogs/{id}/delete")

@@ -5,6 +5,7 @@ import com.zh.exception.NotFoundException;
 import com.zh.pojo.Blog;
 import com.zh.pojo.Type;
 import com.zh.service.BlogService;
+import com.zh.utils.MarkdownUtils;
 import com.zh.utils.MyBeanUtils;
 import com.zh.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +31,19 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Blog getBlog(Long id) {
         return repository.findById(id).get();
+    }
+
+    @Override
+    public Blog getAndConvent(Long id) {
+        Blog blog = repository.findById(id).get();
+        if(blog == null){
+            throw new NotFoundException("博客资源不存在");
+        }
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog,b);
+        String content = b.getContent();
+        b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+        return b;
     }
 
     @Override
@@ -75,6 +89,7 @@ public class BlogServiceImpl implements BlogService {
         if(blog.getId()==null){
             blog.setCreateTime(new Date());
             blog.setUpdateTime(new Date());
+            blog.setFlag("原创");
             blog.setViews(0);
         }else {
             blog.setUpdateTime(new Date());
