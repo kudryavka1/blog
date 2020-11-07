@@ -1,8 +1,9 @@
 package com.zh.web;
 
-import com.zh.pojo.Type;
+import com.zh.pojo.Tag;
 import com.zh.service.BlogService;
-import com.zh.service.TypeService;
+import com.zh.service.TagService;
+import com.zh.service.TagService;
 import com.zh.vo.BlogQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,24 +17,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
-public class TypeShowController {
+public class TagShowController {
 
     @Autowired
-    private TypeService typeService;
+    private TagService tagService;
     @Autowired
     private BlogService blogService;
-    @GetMapping("/types/{id}")
-    public String typesShow(@PageableDefault(size = 5,sort = {"id"},direction = Sort.Direction.DESC)
+    @GetMapping("/tags/{id}")
+    public String tagsShow(@PageableDefault(size = 5,sort = {"id"},direction = Sort.Direction.DESC)
                                     Pageable pageable, @PathVariable Long id, Model model){
-        List<Type> types = typeService.listTypeTop(100);
+        List<Tag> tags = tagService.listTagTop(100);
         if (id == -1){
-            id=types.get(0).getId();
+            id=tags.get(0).getId();
         }
-        BlogQuery blogQuery = new BlogQuery();
-        blogQuery.setTypeId(id);
-        model.addAttribute("types",types);
-        model.addAttribute("page",blogService.listBlog(pageable,blogQuery));
-        model.addAttribute("activeTypeId",id);
-        return "types";
+        model.addAttribute("tags",tags);
+        model.addAttribute("page",blogService.listBlog(id,pageable));
+        model.addAttribute("activeTagId",id);
+        return "tags";
     }
 }

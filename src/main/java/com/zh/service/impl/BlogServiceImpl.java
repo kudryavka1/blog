@@ -16,13 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import javax.persistence.Id;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -76,6 +73,17 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Page<Blog> listBlog(Long tagId, Pageable pageable) {
+        return repository.findAll(new Specification<Blog>() {
+            @Override
+            public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                Join join = root.join("tags");
+                return criteriaBuilder.equal(join.get("id"), tagId);
+            }
+        },pageable);
+    }
+
+    @Override
     public Page<Blog> listBlog(String query, Pageable pageable) {
         return repository.findByQuery(query,pageable);
     }
@@ -85,6 +93,22 @@ public class BlogServiceImpl implements BlogService {
         Sort sort = new Sort(Sort.Direction.DESC,"updateTime");
         Pageable pageable = PageRequest.of(0,size,sort);
         return repository.findTop(pageable);
+    }
+
+    @Override
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = repository.findGroupYear();
+        System.out.println(years);
+        Map<String,List<Blog>> map = new LinkedHashMap<>();
+        for (String year : years) {
+            map.put(year,repository.findByYear(year));
+        }
+        return map;
+    }
+
+    @Override
+    public Long countBlog() {
+        return repository.count();
     }
 
     @Override

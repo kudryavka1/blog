@@ -414,26 +414,29 @@ h5,h6{font-size:1em;}
                 </div>
 
                 <!--赞赏-->
-                <div class="ui center aligned basic segment">
-                    <button id="payButton" class="ui orange basic circular button">赞赏</button>
-                </div>
-                <div class="ui payQR flowing popup transition hidden">
-                    <div class="ui orange basic label">
-                        <div class="ui images" style="font-size: inherit !important;">
-                            <div class="image">
-                                <img src="../static/images/PayZFB.png" th:src="@{/images/PayZFB.png}" alt="" class="ui rounded bordered image" style="width: 120px">
-                                <div>支付宝</div>
-                            </div>
-                            <div class="image">
-                                <img src="../static/images/PayWechat.png" th:src="@{/images/PayWechat.png}" alt="" class="ui rounded bordered image" style="width: 120px">
-                                <div>微信</div>
+                <div th:if="${blog.appreciation}">
+                    <div class="ui center aligned basic segment">
+                        <button id="payButton" class="ui orange basic circular button">赞赏</button>
+                    </div>
+                    <div class="ui payQR flowing popup transition hidden">
+                        <div class="ui orange basic label">
+                            <div class="ui images" style="font-size: inherit !important;">
+                                <div class="image">
+                                    <img src="../static/images/PayZFB.png" th:src="@{/images/PayZFB.png}" alt="" class="ui rounded bordered image" style="width: 120px">
+                                    <div>支付宝</div>
+                                </div>
+                                <div class="image">
+                                    <img src="../static/images/PayWechat.png" th:src="@{/images/PayWechat.png}" alt="" class="ui rounded bordered image" style="width: 120px">
+                                    <div>微信</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
             </div>
-            <div class="ui attached positive message">
+            <div class="ui attached positive message" th:if="${blog.shareStatement}">
                 <!--博客信息-->
                 <div class="ui middle aligned grid">
                     <div class="eleven wide column">
@@ -449,7 +452,7 @@ h5,h6{font-size:1em;}
                     </div>
                 </div>
             </div>
-            <div  class="ui bottom attached segment">
+            <div  class="ui bottom attached segment" th:if="${blog.commentabled}">
                 <!--留言区域列表-->
                 <div id="comment-container"  class="ui teal segment">
                     <div th:fragment="commentList">
@@ -498,61 +501,6 @@ h5,h6{font-size:1em;}
                                     </div>
                                 </div>
                             </div>
-                            <!--/*-->
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img src="https://unsplash.it/100/100?image=1005">
-                                </a>
-                                <div class="content">
-                                    <a class="author">Elliot Fu</a>
-                                    <div class="metadata">
-                                        <span class="date">Yesterday at 12:30AM</span>
-                                    </div>
-                                    <div class="text">
-                                        <p>This has been very useful for my research. Thanks as well!</p>
-                                    </div>
-                                    <div class="actions">
-                                        <a class="reply">回复</a>
-                                    </div>
-                                </div>
-                                <div class="comments">
-                                    <div class="comment">
-                                        <a class="avatar">
-                                            <img src="https://unsplash.it/100/100?image=1005">
-                                        </a>
-                                        <div class="content">
-                                            <a class="author">Jenny Hess</a>
-                                            <div class="metadata">
-                                                <span class="date">Just now</span>
-                                            </div>
-                                            <div class="text">
-                                                Elliot you are always so right :)
-                                            </div>
-                                            <div class="actions">
-                                                <a class="reply">回复</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment">
-                                <a class="avatar">
-                                    <img src="https://unsplash.it/100/100?image=1005">
-                                </a>
-                                <div class="content">
-                                    <a class="author">Joe Henderson</a>
-                                    <div class="metadata">
-                                        <span class="date">5 days ago</span>
-                                    </div>
-                                    <div class="text">
-                                        Dude, this is awesome. Thanks so much
-                                    </div>
-                                    <div class="actions">
-                                        <a class="reply">回复</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--*/-->
 
                         </div>
                     </div>
@@ -753,7 +701,7 @@ h5,h6{font-size:1em;}
             $("[name='parentComment.id']").val(commentId);
             // $(window).scrollTo($('#comment-form'),500);
         }
-
+        $('#newBlog-container').load(/*[[@{/footer/newBlog}]]*/"/footer/newBlog");
 
     </script>
 </body>

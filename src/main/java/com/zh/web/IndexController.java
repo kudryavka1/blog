@@ -1,6 +1,7 @@
 package com.zh.web;
 
 import com.zh.exception.NotFoundException;
+import com.zh.pojo.Blog;
 import com.zh.service.BlogService;
 import com.zh.service.TagService;
 import com.zh.service.TypeService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -49,6 +52,19 @@ public class IndexController {
     public String blog(@PathVariable Long id,Model model){
         model.addAttribute("blog",blogService.getAndConvent(id));
         return "blog";
+    }
+
+    @GetMapping("/footer/newBlog")
+    public String newBlogs(Model model){
+        List<Blog> blogs = blogService.listBlogTop(3);
+        for (Blog blog : blogs) {
+            if (blog.getTitle().length()>20){
+                String substring = blog.getTitle().substring(0,20) + "...";
+                blog.setTitle(substring);
+            }
+        }
+        model.addAttribute("newBlogs",blogs);
+        return "_fragments :: newBlogList";
     }
 
 
