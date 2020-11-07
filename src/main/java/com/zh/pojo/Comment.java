@@ -18,6 +18,7 @@ public class Comment {
     private String email;
     private String content; //评论内容
     private String avatar; //头像
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date creatTime;
     @ManyToOne
@@ -26,4 +27,5 @@ public class Comment {
     private List<Comment> replyComment = new ArrayList<>();
     @ManyToOne
     private Comment parentComment;
+    private Boolean adminComment;
 }

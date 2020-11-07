@@ -43,6 +43,9 @@ public class BlogServiceImpl implements BlogService {
         BeanUtils.copyProperties(blog,b);
         String content = b.getContent();
         b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+
+        repository.updateViews(id);
+
         return b;
     }
 
@@ -90,7 +93,7 @@ public class BlogServiceImpl implements BlogService {
             blog.setCreateTime(new Date());
             blog.setUpdateTime(new Date());
             blog.setFlag("原创");
-            blog.setViews(0);
+            blog.setViews(1);
         }else {
             blog.setUpdateTime(new Date());
         }
