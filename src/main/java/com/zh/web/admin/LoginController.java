@@ -19,6 +19,7 @@ public class LoginController {
     public String loginPage(){
         return "admin/login";
     }
+    @SuppressWarnings("AlibabaLowerCamelCaseVariableNaming")
     @PostMapping("/login")
     public String Login(@RequestParam String username,
                         @RequestParam String password,

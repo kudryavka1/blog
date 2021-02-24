@@ -84,7 +84,7 @@
             <div class="required field">
                 <div class="ui left labeled input">
                     <label class="ui teal basic label">首图</label>
-                    <input type="text" name="firstPicture" th:value="*{firstPicture}" placeholder="首图引用地址">
+                    <input type="text" name="firstPicture" th:value="*{firstPicture}" placeholder="首图引用地址,不填则随机生成一张图片">
                 </div>
             </div>
 
@@ -199,13 +199,13 @@
                     prompt: '标题：请输入博客分类'
                 }]
             },
-            firstPicture : {
+           /* firstPicture : {
                 identifier: 'firstPicture',
                 rules: [{
                     type : 'empty',
                     prompt: '标题：请输入博客首图'
                 }]
-            }
+            }*/
         }
     });
     $('#newBlog-container').load(/*[[@{/footer/newBlog}]]*/"/footer/newBlog");

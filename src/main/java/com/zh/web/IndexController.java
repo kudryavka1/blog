@@ -59,7 +59,7 @@ public class IndexController {
         List<Blog> blogs = blogService.listBlogTop(3);
         for (Blog blog : blogs) {
             if (blog.getTitle().length()>20){
-                String substring = blog.getTitle().substring(0,20) + "...";
+                String substring = blog.getTitle().substring(0,14) + "...";
                 blog.setTitle(substring);
             }
         }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.expression.Ids;
 
 import javax.servlet.http.HttpSession;
+import java.util.Random;
 
 
 @Controller
@@ -71,11 +72,18 @@ public class BlogController {
         if(blog.getFlag() == null && "".equals(blog.getFlag())){
             blog.setFlag("原创");
         }
+        if (blog.getFirstPicture() == null || "".equals(blog.getFirstPicture().trim())){
+//            https://picsum.photos/id/1020/1000/600
+            //随机生成一张图片
+            Integer id = (int)(Math.random()*100);
+            blog.setFirstPicture("https://picsum.photos/id/"+id+"/1000/600");
+        }
         if (blog.getId() != null){
             b = blogService.updateBlog(blog.getId(),blog);
         }else {
             b = blogService.saveBlog(blog);
         }
+
         if(b == null){
             attributes.addFlashAttribute("message","操作失败");
         }else {
